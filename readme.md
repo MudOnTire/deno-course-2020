@@ -50,6 +50,10 @@ iwr https://deno.land/x/install/install.ps1 -useb | iex
 
 安装完成后，在命令行里面输入 `deno` 命令就可以进入编程模式：
 
-```sh
+![deno command](http://lc-3Cv4Lgro.cn-n1.lcfile.com/5b6647a1119e74bba67c/deno-command.jpg)
 
+如果要查看Deno的版本，输入：
+
+```sh
+deno --version
 ```
