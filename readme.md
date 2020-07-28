@@ -74,10 +74,42 @@ Deno甚至可以运行一个远程的TS文件：
 
 > 上图文件路径：http://lc-3Cv4Lgro.cn-n1.lcfile.com/0a5a6a6d71aaa2f69a6b/greet.ts
 
-可以看到，deno会先下载远程ts文件，再编译、运行。如果该远程文件已经被下载运行过了，之后再运行就会从缓存中读取：
+可以看到，deno会先下载远程ts文件，再编译、运行。如果该远程文件已经被下载编译过了，之后再运行就会从缓存中读取：
 
 ![remote](http://lc-3Cv4Lgro.cn-n1.lcfile.com/57dfee961acfcd540308/cached.jpg)
 
 如果想重新下载、编译则可以使用 `-r` 或 `--reload` 参数，表示reload：
 
 ![reload](http://lc-3Cv4Lgro.cn-n1.lcfile.com/f52998ab07ea82e62eb6/reload.jpg)
+
+# 文件系统
+
+和 Node 一样，Deno 也能操作文件系统。
+
+## 读取文件 
+
+比如，读取一个txt文本：
+
+**doc.txt**
+
+```
+This is my first deno app.
+```
+
+**read.ts**
+
+```ts
+const decoder = new TextDecoder('utf-8');
+
+const data = await Deno.readFile('doc.txt');
+
+console.log(decoder.decode(data));
+```
+
+但和 Node 不同，Deno 默认是没有操作文件权限的，如果使用 `deno run read.ts` 运行就会报错：
+
+![read err](http://lc-3Cv4Lgro.cn-n1.lcfile.com/cdee6320ec7b7730b7e8/read%20err.jpg)
+
+因为我们需要手动的赋予读取文件的权限，使用 `--allow-read` flag：
+
+![read](http://lc-3Cv4Lgro.cn-n1.lcfile.com/751f946a20c1dc3ba77c/read.jpg)
