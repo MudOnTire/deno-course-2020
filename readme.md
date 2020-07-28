@@ -256,7 +256,7 @@ deno run --allow-read --unstable fs.ts
 
 **http.ts:**
 
-```ts
+``` ts
 import { serve } from 'https://deno.land/std@0.62.0/http/mod.ts';
 
 const server = serve({
@@ -274,7 +274,7 @@ for await (const req of server) {
 
 **运行：**
 
-```sh
+``` sh
 deno run --allow-net http.ts
 ```
 
@@ -310,7 +310,18 @@ deno run uuid.ts
 
 > uuid模块地址：https://deno.land/std/uuid
 
-
 # 第三方模块
 
-虽然诞生不久但勤劳的同行们已经为Deno生态贡献了不少东西。
+虽然诞生不久但勤劳的同行们已经为Deno生态做出了不少贡献，现有的第三方模块在 [这里](https://deno.land/x) 可以找到。
+
+下面列举几个比较有用的模块：
+
+* [oak](https://github.com/oakserver/oak)：Deno 版的 [koa](https://koajs.com/)，面向http服务的中间件框架
+
+* [abc](https://github.com/zhmushan/abc/tree/master)：另一个挺好的 web 应用框架
+
+* [denon](https://deno.land/x/denon)：Deno 版的 [nodemon](https://nodemon.io/)，用于开发时监听文件变化自动重启程序
+
+* [denoify](https://github.com/garronej/denoify)：将 Node 应用转为 Deno 应用
+
+还有一些原本的npm包在Deno里面还是可以用的，比如：[lodash](https://deno.land/x/lodash)
