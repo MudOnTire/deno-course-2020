@@ -106,10 +106,62 @@ const data = await Deno.readFile('doc.txt');
 console.log(decoder.decode(data));
 ```
 
-但和 Node 不同，Deno 默认是没有操作文件权限的，如果使用 `deno run read.ts` 运行就会报错：
+> 如果使用VSCode进行开发，推荐安装 [Deno](https://marketplace.visualstudio.com/items?itemName=denoland.vscode-deno) 插件。
+
+和 Node 不同，Deno 默认是没有操作文件权限的，如果使用 `deno run read.ts` 运行就会报错：
 
 ![read err](http://lc-3Cv4Lgro.cn-n1.lcfile.com/cdee6320ec7b7730b7e8/read%20err.jpg)
 
 因为我们需要手动的赋予读取文件的权限，使用 `--allow-read` flag：
 
 ![read](http://lc-3Cv4Lgro.cn-n1.lcfile.com/751f946a20c1dc3ba77c/read.jpg)
+
+## 写文件
+
+与读文件对应的，写文件的操作如下：
+
+**write.ts**
+
+```ts
+const encoder = new TextEncoder();
+
+const txt = 'Deno is awesome!';
+
+await Deno.writeFile('doc.txt', encoder.encode(txt));
+```
+
+同样的，我们需要手动赋予写文件的权限：
+
+```sh
+deno run --allow-write  write.ts
+```
+
+## 重命名文件
+
+**rename.ts**
+
+```ts
+await Deno.rename('doc.txt','readme.txt');
+```
+
+重命名文件需要同时赋予读和写的权限：
+
+```sh
+deno run --allow-read --allow-write rename.ts
+```
+
+## 删除文件
+
+**delete.ts**
+
+```ts
+await Deno.remove('doc.txt');
+```
+
+删除文件需要写的权限：
+
+```sh
+deno run --allow-write delete.ts
+```
+
+

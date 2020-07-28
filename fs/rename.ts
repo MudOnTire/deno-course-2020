@@ -1,0 +1,1 @@
+await Deno.rename('doc.txt','readme.txt');
