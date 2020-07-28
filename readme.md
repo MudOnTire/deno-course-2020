@@ -50,10 +50,18 @@ iwr https://deno.land/x/install/install.ps1 -useb | iex
 
 安装完成后，在命令行里面输入 `deno` 命令就可以进入编程模式：
 
-![deno command](http://lc-3Cv4Lgro.cn-n1.lcfile.com/5b6647a1119e74bba67c/deno-command.jpg)
+![deno command](http://lc-3Cv4Lgro.cn-n1.lcfile.com/71f852eafd8111733017/deno.jpg)
 
-如果要查看Deno的版本，输入：
+使用 `deno --version` 查看Deno的版本：
 
-```sh
-deno --version
-```
+![deno version](http://lc-3Cv4Lgro.cn-n1.lcfile.com/fa8e4133e234da5a469e/version.jpg)
+
+可以使用 `deno run <filename.js>` 运行一个js文件。
+
+![run js](http://lc-3Cv4Lgro.cn-n1.lcfile.com/9874be70e175dde77b02/run%20js.jpg)
+
+或者，一个 ts 文件：
+
+![run ts](http://lc-3Cv4Lgro.cn-n1.lcfile.com/a092f8e9ef8f255c874c/run%20ts.jpg)
+
+
