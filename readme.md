@@ -1,14 +1,14 @@
 ![deno](http://lc-3Cv4Lgro.cn-n1.lcfile.com/1cc4e559f878a92c8cfa/deno.png)
 
-希望大家不要被标题吓到，纯属为了吸引眼球😢。。根据笔者这两天的学习感受，Deno 比 Node 更容易入门，而且如果有 Node 的基础很多东西都是可以类比的，学起来豪不费力。个人认为现在正是入门 Deno 的最好时机，随着v1.0的发布 Deno 的 API 已趋于稳定，但整个生态圈的繁荣才刚刚开始，所以趁 Deno 还是个宝宝我们可以陪它一起成长。
+希望大家不要被标题吓到，纯属为了吸引眼球😢。。根据笔者这两天的学习感受，Deno 比 Node 更容易入门，如果你有 Node 的基础那更简单了，很多东西都是可以类比的，学起来豪不费力。个人认为现在正是入门 Deno 的最好时机，随着 v1.0 的发布 Deno 的 API 已趋于稳定，但整个生态圈的繁荣才刚刚开始，所以趁 Deno 还是个宝宝我们可以陪它一起成长。
 
 # 什么是Deno
 
-Deno是新一代的 JavaScript 和 TypeScript 运行时（runtime），使用 [Rust](https://www.rust-lang.org/) 和 [tokio](https://github.com/tokio-rs/tokio) 实现，和 Node 一样内部也使用 [V8](https://v8.dev/) 引擎，而且Deno 和 Node 的作者是同一个人：[Ryan Dahl](https://github.com/ry)。他创造Deno的初衷是为了弥补 Node 的某些设计缺陷，但鉴于目前Node的生态已经如此繁荣，Deno暂时还无法完全取代Node，Node应该还将长期稳定存在。
+Deno是新一代的 JavaScript 和 TypeScript 运行时（runtime），使用 [Rust](https://www.rust-lang.org/) 和 [tokio](https://github.com/tokio-rs/tokio) 实现，和 Node 一样内部也使用 [V8](https://v8.dev/) 引擎，而且Deno 和 Node 的作者是同一个人：[Ryan Dahl](https://github.com/ry)。他创造Deno的初衷是为了弥补 Node 的某些设计缺陷，但鉴于目前 Node 的生态已经如此繁荣，Deno 暂时还无法完全取代 Node，Node 应该还将长期稳定存在。
 
 Deno的主要特点有：
 
-* 安全性：默认没有文件、网络、系统的访问权限，除非明确启用。与之相比，Node 是不安全的。
+* 安全性：默认没有文件、网络、系统的访问权限，除非明确启用。与之相比，Node 是不安全的
 
 * 天生支持 TypeScript
 
@@ -16,7 +16,7 @@ Deno的主要特点有：
 
 * 官方提供包含很多常用功能的标准库，摆脱对一些第三方库的依赖
 
-* 使用ES6的模块系统（Node 使用的是CommonJS）
+* 使用ES6的模块系统（Node 使用的是 CommonJS）
 
 * 依赖可通过远程获取，无需安装到本地
 
@@ -58,9 +58,9 @@ choco install deno
 
 ![deno version](http://lc-3Cv4Lgro.cn-n1.lcfile.com/a5d2e7ca8d2d841e2159/v.jpg)
 
-## 运行JS、TS文件
+## 运行js、ts文件
 
-**可以使用 `deno run <filename.js>` 运行一个本地 js 文件。**
+**可以使用 `deno run <filename.js>` 命令运行一个本地 js 文件。**
 
 ![run js](http://lc-3Cv4Lgro.cn-n1.lcfile.com/9874be70e175dde77b02/run%20js.jpg)
 
@@ -86,15 +86,15 @@ choco install deno
 
 # Deno运行时（Runtime）
 
-Deno的运行时由标准的 [Web APIs](https://doc.deno.land/https/raw.githubusercontent.com/denoland/deno/master/cli/dts/lib.deno.shared_globals.d.ts) + [Deno global](https://doc.deno.land/https/raw.githubusercontent.com/denoland/deno/master/cli/dts/lib.deno.ns.d.ts) 这两部分组成。
+Deno 的运行时由标准的 [Web APIs](https://doc.deno.land/https/raw.githubusercontent.com/denoland/deno/master/cli/dts/lib.deno.shared_globals.d.ts) + [Deno global](https://doc.deno.land/https/raw.githubusercontent.com/denoland/deno/master/cli/dts/lib.deno.ns.d.ts) 这两部分组成。
 
-实现 Web APIs 主要是为了遵循已有的 web 标准，提供大家都熟悉的接口，以降低学习和使用成本，也让我们前端同学更容易上手，比如常见的 `console` 、 `fetch` 、 `setTimeout` 等方法在Deno中仍可以正常使用。Web APIs 的作用域为全局，即可以直接使用或者通过 `window.***` 、 `globalThis.***` 调用。Deno 实现的所有Web APIs可参考 [Github Repo](https://github.com/denoland/deno/blob/master/cli/rt/README.md) 。
+实现 Web APIs 主要是为了遵循已有的 web 标准，提供大家都熟悉的接口，以降低学习和使用成本，也让我们前端同学更容易上手，比如常见的 `console` 、 `fetch` 、 `setTimeout` 等方法在Deno中仍可以正常使用。Web APIs 的作用域为全局，即可以直接使用或者通过 `window.***` 、 `globalThis.***` 调用。Deno 实现的所有 Web APIs 可参考 [Github Repo](https://github.com/denoland/deno/blob/master/cli/rt/README.md) 。
 
 除了 Web APIs，Deno 自有的 API 都放在 `Deno` 这个命名空间下，比如文件操作、网络连接、进程管理等。
 
 ## Web APIs
 
-以 fetch API 为例展示 Deno中 Web APIs的使用。
+接下来以 `fetch API` 为例展示 Deno中 Web APIs 的使用。
 
 ### Fetch API
 
@@ -129,7 +129,7 @@ deno run --allow-net fetch.ts
 deno run --allow-net=github.com fetch.ts
 ```
 
-**结果：**
+**结果将获取不到指定资源：**
 
 ![fetch other domain](http://lc-3Cv4Lgro.cn-n1.lcfile.com/f6231c4dd70022c8569a/fetch-other-domain.jpg)
 
@@ -325,7 +325,7 @@ deno run uuid.ts
 
 * [denoify](https://github.com/garronej/denoify)：将 Node 应用转为 Deno 应用
 
-还有一些原本的npm包在Deno里面还是可以用的，比如：[lodash](https://deno.land/x/lodash)
+还有一些原本的 npm 包在 Deno 里面还是可以用的，比如：[lodash](https://deno.land/x/lodash)
 
 好了，今天的Deno入门就给大家介绍到这里，如果对你有帮助的话给个赞和关注吧 😊。
 
