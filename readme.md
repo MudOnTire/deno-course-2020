@@ -8,53 +8,54 @@ Deno的主要特点有：
 
 1. 天生支持TypeScript
 
-1. 使用ES6的模块系统（Node.js 使用的是CommonJS模块系统）
-
 1. 实现了部分的标准Web APIs，比如：[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)、[Console API](https://developer.mozilla.org/en-US/docs/Web/API/Console)等，对前端人员友好
 
 1. 官网提供一个包含很多常用功能的标准库，摆脱对一些第三方库的依赖
 
-1. 只生成一个可执行文件
+1. 使用ES6的模块系统（Node.js 使用的是CommonJS模块系统）
 
-1. 内置工具程序，比如依赖检查器、代码格式化程序
+1. 依赖可通过远程获取，无需安装到本地
 
-1. 通过imports，而不是npm安装依赖
+<!-- 1. 只生成一个可执行文件 -->
+<!-- 1. 内置工具程序，比如依赖检查器、代码格式化程序 -->
 
 Deno目前还处于早期发展阶段，所以一些功能和API可能还会有变动，同时生态也并不完善，社区提供的工具或多或少会有bug，但是这些都是正常的，并不妨碍我们去提前学习和了解这个更优秀的 Node.js 替代品。
 
 # 安装Deno
 
-**Homebrew (Mac) 推荐:**
+**Shell (Mac, Linux) - 指定版本（推荐）:**
+
+```sh
+curl -fsSL https://deno.land/x/install/install.sh | sh -s v1.2.1
+```
+
+**PowerShell (Windows) - 指定版本（推荐）:**
+
+```sh
+$v="1.2.1"; iwr https://deno.land/x/install/install.ps1 -useb | iex
+```
+
+**Homebrew (Mac) :**
 
 ```sh
 brew install deno
 ```
 
-**Chocolatey (Windows) 推荐:**
+**Chocolatey (Windows) :**
 
 ```sh
 choco install deno
 ```
 
-**Shell (Mac, Linux):**
+> 注意：安装完成后需根据命令行中的提示配置环境变量！
 
-```sh
-curl -fsSL https://deno.land/x/install/install.sh | sh
-```
-
-**PowerShell (Windows):**
-
-```sh
-iwr https://deno.land/x/install/install.ps1 -useb | iex
-```
-
-安装完成后，在命令行里面输入 `deno` 命令就可以进入编程模式：
+在命令行里面输入 `deno` 命令就可以进入编程模式：
 
 ![deno command](http://lc-3Cv4Lgro.cn-n1.lcfile.com/71f852eafd8111733017/deno.jpg)
 
 使用 `deno --version` 查看Deno的版本：
 
-![deno version](http://lc-3Cv4Lgro.cn-n1.lcfile.com/fa8e4133e234da5a469e/version.jpg)
+![deno version](http://lc-3Cv4Lgro.cn-n1.lcfile.com/a5d2e7ca8d2d841e2159/v.jpg)
 
 ## 运行JS、TS文件
 
@@ -217,3 +218,59 @@ deno run --allow-write delete.ts
 除了 Web APIs 和 Deno global，Deno官方团队还提供了一个标准库，即一组高质量的工具集。这个标准库不包含任何第三方依赖，而且代码都会由Deno核心团队审查，因此能保证高质量。
 
 > 标准库地址：https://deno.land/std
+
+接下来，我们以几个常用的模块为例展示标准库的用法。
+
+## uuid（通用唯一识别码）
+
+**uuid** 的作用是生成一个128位的全局唯一的ID。
+
+**uuid.ts:**
+
+```ts
+import { v4 } from "https://deno.land/std@0.62.0/uuid/mod.ts";
+
+const myUUID = v4.generate();
+
+console.log(myUUID);
+```
+
+> 标准库的版本Deno的版本暂时不统一，使用标准库时应该指定稳定的版本号，如本例中的 `0.62.0`，以避免意外的更新和重大更改。
+
+**运行：**
+
+```sh
+deno run uuid.ts 
+```
+
+**结果：**
+
+![uuid](http://lc-3Cv4Lgro.cn-n1.lcfile.com/c9172e9ff30c3a657afd/uuid.jpg)
+
+> uuid模块地址：https://deno.land/std/uuid
+
+## fs（文件系统）
+
+标准库中的 **fs** 是对Deno自带文件操作的扩展，比如增加了对JSON文件的读取：
+
+**fs.ts**
+
+```ts
+import {readJson} from 'https://deno.land/std@0.62.0/fs/mod.ts';
+
+const posts = await readJson('./posts.json');
+
+console.log(posts);
+```
+
+**运行：**
+
+```sh
+deno run --allow-read --unstable fs.ts
+```
+
+> 因为设计到一些不稳定API的调用，所以要加上 `--unstable` flag 以启用这些API
+
+**结果：**
+
+![fs](http://lc-3Cv4Lgro.cn-n1.lcfile.com/f3175e9eb3107f24bb88/fs.jpg)
