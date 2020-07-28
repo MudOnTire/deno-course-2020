@@ -25,25 +25,25 @@ Deno目前还处于早期发展阶段，所以一些功能和API可能还会有�
 
 **Shell (Mac, Linux) - 指定版本（推荐）:**
 
-```sh
+``` sh
 curl -fsSL https://deno.land/x/install/install.sh | sh -s v1.2.1
 ```
 
 **PowerShell (Windows) - 指定版本（推荐）:**
 
-```sh
+``` sh
 $v="1.2.1"; iwr https://deno.land/x/install/install.ps1 -useb | iex
 ```
 
 **Homebrew (Mac) :**
 
-```sh
+``` sh
 brew install deno
 ```
 
 **Chocolatey (Windows) :**
 
-```sh
+``` sh
 choco install deno
 ```
 
@@ -87,7 +87,7 @@ Deno甚至可以运行一个远程的TS文件：
 
 Deno的运行时由标准的[Web APIs](https://doc.deno.land/https/raw.githubusercontent.com/denoland/deno/master/cli/dts/lib.deno.shared_globals.d.ts) + [Deno global](https://doc.deno.land/https/raw.githubusercontent.com/denoland/deno/master/cli/dts/lib.deno.ns.d.ts) 这两大部分组成。
 
-实现Web APIs主要是为了遵循已有的web标准，提供大家都熟悉的接口，以降低学习和使用成本，也让我们前端同学更容易上手，比如常见的 `console`、`fetch`、`setTimeout` 等方法在Deno中仍可以正常使用。Web APIs的作用域为全局，即可以直接使用或者通过 `window.***`、`globalThis.***` 调用。Deno 实现的所有Web APIs可参考 [Github Repo](https://github.com/denoland/deno/blob/master/cli/rt/README.md) 。
+实现Web APIs主要是为了遵循已有的web标准，提供大家都熟悉的接口，以降低学习和使用成本，也让我们前端同学更容易上手，比如常见的 `console` 、 `fetch` 、 `setTimeout` 等方法在Deno中仍可以正常使用。Web APIs的作用域为全局，即可以直接使用或者通过 `window.***` 、 `globalThis.***` 调用。Deno 实现的所有Web APIs可参考 [Github Repo](https://github.com/denoland/deno/blob/master/cli/rt/README.md) 。
 
 除了 Web APIs，Deno自有的API都放在 `Deno` 这个命名空间下，比如文件操作、建立网络连接、管理子进程等。
 
@@ -101,7 +101,7 @@ Deno的运行时由标准的[Web APIs](https://doc.deno.land/https/raw.githubuse
 
 **fetch.ts：**
 
-```ts
+``` ts
 const res = await window.fetch('https://jsonplaceholder.typicode.com/posts/1');
 const data = await res.json();
 
@@ -110,7 +110,7 @@ console.log(data);
 
 **运行：**
 
-```sh
+``` sh
 deno run --allow-net fetch.ts
 ```
 
@@ -122,14 +122,13 @@ deno run --allow-net fetch.ts
 
 我们也可以给 `--allow-net` 指定可访问的域名，则访问未指定的域名就会报错。比如，将上面的命令改为：
 
-```sh
+``` sh
 deno run --allow-net=github.com fetch.ts
 ```
 
 **结果：**
 
 ![fetch other domain](http://lc-3Cv4Lgro.cn-n1.lcfile.com/f6231c4dd70022c8569a/fetch-other-domain.jpg)
-
 
 ## Deno Global
 
@@ -141,13 +140,13 @@ deno run --allow-net=github.com fetch.ts
 
 **doc.txt**
 
-```
+``` 
 This is my first deno app.
 ```
 
 **read.ts**
 
-```ts
+``` ts
 const decoder = new TextDecoder('utf-8');
 
 const data = await Deno.readFile('doc.txt');
@@ -171,7 +170,7 @@ console.log(decoder.decode(data));
 
 **write.ts**
 
-```ts
+``` ts
 const encoder = new TextEncoder();
 
 const txt = 'Deno is awesome!';
@@ -181,7 +180,7 @@ await Deno.writeFile('doc.txt', encoder.encode(txt));
 
 同样的，我们需要手动赋予写文件的权限：
 
-```sh
+``` sh
 deno run --allow-write  write.ts
 ```
 
@@ -189,13 +188,13 @@ deno run --allow-write  write.ts
 
 **rename.ts**
 
-```ts
+``` ts
 await Deno.rename('doc.txt','readme.txt');
 ```
 
 重命名文件需要同时赋予读和写的权限：
 
-```sh
+``` sh
 deno run --allow-read --allow-write rename.ts
 ```
 
@@ -203,13 +202,13 @@ deno run --allow-read --allow-write rename.ts
 
 **delete.ts**
 
-```ts
+``` ts
 await Deno.remove('doc.txt');
 ```
 
 删除文件需要写的权限：
 
-```sh
+``` sh
 deno run --allow-write delete.ts
 ```
 
@@ -221,51 +220,25 @@ deno run --allow-write delete.ts
 
 接下来，我们以几个常用的模块为例展示标准库的用法。
 
-## uuid（通用唯一识别码）
+## [fs（文件系统）](https://deno.land/std/fs)
 
-**uuid** 的作用是生成一个128位的全局唯一的ID。
+标准库中的 **fs** 是对Deno自带文件操作的扩展，比如增加了对JSON文件的读写：
 
-**uuid.ts:**
+**fs.ts:**
 
-```ts
-import { v4 } from "https://deno.land/std@0.62.0/uuid/mod.ts";
-
-const myUUID = v4.generate();
-
-console.log(myUUID);
-```
-
-> 标准库的版本Deno的版本暂时不统一，使用标准库时应该指定稳定的版本号，如本例中的 `0.62.0`，以避免意外的更新和重大更改。
-
-**运行：**
-
-```sh
-deno run uuid.ts 
-```
-
-**结果：**
-
-![uuid](http://lc-3Cv4Lgro.cn-n1.lcfile.com/c9172e9ff30c3a657afd/uuid.jpg)
-
-> uuid模块地址：https://deno.land/std/uuid
-
-## fs（文件系统）
-
-标准库中的 **fs** 是对Deno自带文件操作的扩展，比如增加了对JSON文件的读取：
-
-**fs.ts**
-
-```ts
-import {readJson} from 'https://deno.land/std@0.62.0/fs/mod.ts';
+``` ts
+import { readJson } from 'https://deno.land/std@0.62.0/fs/mod.ts';
 
 const posts = await readJson('./posts.json');
 
 console.log(posts);
 ```
 
+> 标准库的版本Deno的版本暂时不统一，使用标准库时应该指定稳定的版本号，如本例中的 `0.62.0` ，以避免意外的更新和重大更改。
+
 **运行：**
 
-```sh
+``` sh
 deno run --allow-read --unstable fs.ts
 ```
 
@@ -274,3 +247,62 @@ deno run --allow-read --unstable fs.ts
 **结果：**
 
 ![fs](http://lc-3Cv4Lgro.cn-n1.lcfile.com/f3175e9eb3107f24bb88/fs.jpg)
+
+## [http（网络模块）](https://deno.land/std/http)
+
+和Node.js类似，Deno的http模块也能用于创建一个web服务器：
+
+**http.ts:**
+
+```ts
+import { serve } from 'https://deno.land/std@0.62.0/http/mod.ts';
+
+const server = serve({
+  port: 3000
+});
+
+console.log('listening on port 3000');
+
+for await (const req of server) {
+  req.respond({
+    body: `<h1>Hello, Deno!</h1>`
+  })
+}
+```
+
+**运行：**
+
+```sh
+deno run --allow-net http.ts
+```
+
+**结果：**
+
+![http](http://lc-3Cv4Lgro.cn-n1.lcfile.com/d1360b5a26cffa89876e/http.jpg)
+
+
+## uuid（通用唯一识别码）
+
+**uuid** 的作用是生成一个128位的全局唯一的ID。
+
+**uuid.ts:**
+
+``` ts
+import { v4 } from "https://deno.land/std@0.62.0/uuid/mod.ts";
+
+const myUUID = v4.generate();
+
+console.log(myUUID);
+```
+
+**运行：**
+
+``` sh
+deno run uuid.ts 
+```
+
+**结果：**
+
+![uuid](http://lc-3Cv4Lgro.cn-n1.lcfile.com/c9172e9ff30c3a657afd/uuid.jpg)
+
+> uuid模块地址：https://deno.land/std/uuid
