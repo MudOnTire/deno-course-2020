@@ -4,15 +4,15 @@ Deno是新一代的 JavaScript 和 TypeScript 运行时（runtime），使用 [R
 
 Deno的主要特点有：
 
-1. 安全性：默认没有文件、网络、系统环境的访问权限，除非明确启用。与之相比，Node.js默认是不安全的。
+1. 安全性：默认没有文件、网络、系统环境的访问权限，除非明确启用。与之相比，Node.js是不安全的。
 
 1. 天生支持TypeScript
 
 1. 使用ES6的模块系统（Node.js 使用的是CommonJS模块系统）
 
-1. 实现了部分的标准Web APIs，比如：[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)、[Console API](https://developer.mozilla.org/en-US/docs/Web/API/Console)
+1. 实现了部分的标准Web APIs，比如：[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)、[Console API](https://developer.mozilla.org/en-US/docs/Web/API/Console)等，对前端人员友好
 
-1. 拥有一个标准模块库，可保证与Deno一起使用
+1. 官网提供一个包含很多常用功能的标准库，摆脱对一些第三方库的依赖
 
 1. 只生成一个可执行文件
 
@@ -82,11 +82,11 @@ Deno甚至可以运行一个远程的TS文件：
 
 ![reload](http://lc-3Cv4Lgro.cn-n1.lcfile.com/f52998ab07ea82e62eb6/reload.jpg)
 
-# Deno主要组成
+# Deno运行时（Runtime）
 
-Deno由 标准的[Web APIs](https://doc.deno.land/https/raw.githubusercontent.com/denoland/deno/master/cli/dts/lib.deno.shared_globals.d.ts) + [Deno global](https://doc.deno.land/https/raw.githubusercontent.com/denoland/deno/master/cli/dts/lib.deno.ns.d.ts) 这两大部分组成。
+Deno的运行时由标准的[Web APIs](https://doc.deno.land/https/raw.githubusercontent.com/denoland/deno/master/cli/dts/lib.deno.shared_globals.d.ts) + [Deno global](https://doc.deno.land/https/raw.githubusercontent.com/denoland/deno/master/cli/dts/lib.deno.ns.d.ts) 这两大部分组成。
 
-实现Web APIs的主要目的是为了遵循现有的web标准，以降低学习成本，让熟悉前端开发的同学更容易上手，比如常见的 `console`、`fetch`、`setTimeout` 等方法在Deno中仍可以正常使用。Web APIs的作用域为全局，即可以直接使用或者通过 `window.***`、`globalThis.***` 调用。Deno 实现的所有Web APIs可参考 [Github Repo](https://github.com/denoland/deno/blob/master/cli/rt/README.md) 。
+实现Web APIs主要是为了遵循已有的web标准，提供大家都熟悉的接口，以降低学习和使用成本，也让我们前端同学更容易上手，比如常见的 `console`、`fetch`、`setTimeout` 等方法在Deno中仍可以正常使用。Web APIs的作用域为全局，即可以直接使用或者通过 `window.***`、`globalThis.***` 调用。Deno 实现的所有Web APIs可参考 [Github Repo](https://github.com/denoland/deno/blob/master/cli/rt/README.md) 。
 
 除了 Web APIs，Deno自有的API都放在 `Deno` 这个命名空间下，比如文件操作、建立网络连接、管理子进程等。
 
@@ -130,13 +130,9 @@ deno run --allow-net=github.com fetch.ts
 ![fetch other domain](http://lc-3Cv4Lgro.cn-n1.lcfile.com/f6231c4dd70022c8569a/fetch-other-domain.jpg)
 
 
+## Deno Global
 
-
-
-
-## 文件系统
-
-和 Node 一样，Deno 也能操作文件系统。
+和 Node 一样，Deno 也能操作文件系统，接下来我们以此为例展示 Deno global APIs 的使用。
 
 ## 读取文件 
 
@@ -216,4 +212,8 @@ await Deno.remove('doc.txt');
 deno run --allow-write delete.ts
 ```
 
+# Deno标准库
 
+除了 Web APIs 和 Deno global，Deno官方团队还提供了一个标准库，即一组高质量的工具集。这个标准库不包含任何第三方依赖，而且代码都会由Deno核心团队审查，因此能保证高质量。
+
+> 标准库地址：https://deno.land/std
