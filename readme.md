@@ -56,7 +56,9 @@ iwr https://deno.land/x/install/install.ps1 -useb | iex
 
 ![deno version](http://lc-3Cv4Lgro.cn-n1.lcfile.com/fa8e4133e234da5a469e/version.jpg)
 
-可以使用 `deno run <filename.js>` 运行一个js文件。
+# 运行JS、TS文件
+
+可以使用 `deno run <filename.js>` 运行一个本地js文件。
 
 ![run js](http://lc-3Cv4Lgro.cn-n1.lcfile.com/9874be70e175dde77b02/run%20js.jpg)
 
@@ -64,4 +66,18 @@ iwr https://deno.land/x/install/install.ps1 -useb | iex
 
 ![run ts](http://lc-3Cv4Lgro.cn-n1.lcfile.com/a092f8e9ef8f255c874c/run%20ts.jpg)
 
+> 第一次运行 ts 文件会进行编译，第二次就不用编译了，除非 ts 文件有修改。
 
+Deno甚至可以运行一个远程的TS文件：
+
+![remote ts](http://lc-3Cv4Lgro.cn-n1.lcfile.com/60752db01d0d915ba402/remote%20ts.jpg)
+
+> 上图文件路径：http://lc-3Cv4Lgro.cn-n1.lcfile.com/0a5a6a6d71aaa2f69a6b/greet.ts
+
+可以看到，deno会先下载远程ts文件，再编译、运行。如果该远程文件已经被下载运行过了，之后再运行就会从缓存中读取：
+
+![remote](http://lc-3Cv4Lgro.cn-n1.lcfile.com/57dfee961acfcd540308/cached.jpg)
+
+如果想重新下载、编译则可以使用 `-r` 或 `--reload` 参数，表示reload：
+
+![reload](http://lc-3Cv4Lgro.cn-n1.lcfile.com/f52998ab07ea82e62eb6/reload.jpg)
