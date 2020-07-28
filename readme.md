@@ -10,7 +10,7 @@ Deno的主要特点有：
 
 1. 使用ES6的模块系统（Node.js 使用的是CommonJS模块系统）
 
-1. 可以使用标准的Web API，比如：fetch
+1. 实现了部分的标准Web APIs，比如：[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)、[Console API](https://developer.mozilla.org/en-US/docs/Web/API/Console)
 
 1. 拥有一个标准模块库，可保证与Deno一起使用
 
@@ -56,7 +56,7 @@ iwr https://deno.land/x/install/install.ps1 -useb | iex
 
 ![deno version](http://lc-3Cv4Lgro.cn-n1.lcfile.com/fa8e4133e234da5a469e/version.jpg)
 
-# 运行JS、TS文件
+## 运行JS、TS文件
 
 可以使用 `deno run <filename.js>` 运行一个本地js文件。
 
@@ -82,7 +82,59 @@ Deno甚至可以运行一个远程的TS文件：
 
 ![reload](http://lc-3Cv4Lgro.cn-n1.lcfile.com/f52998ab07ea82e62eb6/reload.jpg)
 
-# 文件系统
+# Deno主要组成
+
+Deno由 标准的[Web APIs](https://doc.deno.land/https/raw.githubusercontent.com/denoland/deno/master/cli/dts/lib.deno.shared_globals.d.ts) + [Deno global](https://doc.deno.land/https/raw.githubusercontent.com/denoland/deno/master/cli/dts/lib.deno.ns.d.ts) 这两大部分组成。
+
+实现Web APIs的主要目的是为了遵循现有的web标准，以降低学习成本，让熟悉前端开发的同学更容易上手，比如常见的 `console`、`fetch`、`setTimeout` 等方法在Deno中仍可以正常使用。Web APIs的作用域为全局，即可以直接使用或者通过 `window.***`、`globalThis.***` 调用。Deno 实现的所有Web APIs可参考 [Github Repo](https://github.com/denoland/deno/blob/master/cli/rt/README.md) 。
+
+除了 Web APIs，Deno自有的API都放在 `Deno` 这个命名空间下，比如文件操作、建立网络连接、管理子进程等。
+
+## Web APIs
+
+以 fetch API 为例展示 Deno中 Web APIs的使用。
+
+### Fetch API
+
+比如获取一个远程资源：
+
+**fetch.ts：**
+
+```ts
+const res = await window.fetch('https://jsonplaceholder.typicode.com/posts/1');
+const data = await res.json();
+
+console.log(data);
+```
+
+**运行：**
+
+```sh
+deno run --allow-net fetch.ts
+```
+
+> 注意：进行网络访问也需要单独授权，使用 `--allow-net` flag。
+
+**结果：**
+
+![fetch](http://lc-3Cv4Lgro.cn-n1.lcfile.com/cbdb103e7fa4512dcbf8/fetch.jpg)
+
+我们也可以给 `--allow-net` 指定可访问的域名，则访问未指定的域名就会报错。比如，将上面的命令改为：
+
+```sh
+deno run --allow-net=github.com fetch.ts
+```
+
+**结果：**
+
+![fetch other domain](http://lc-3Cv4Lgro.cn-n1.lcfile.com/f6231c4dd70022c8569a/fetch-other-domain.jpg)
+
+
+
+
+
+
+## 文件系统
 
 和 Node 一样，Deno 也能操作文件系统。
 
