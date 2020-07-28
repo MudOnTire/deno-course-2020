@@ -220,7 +220,7 @@ deno run --allow-write delete.ts
 
 接下来，我们以几个常用的模块为例展示标准库的用法。
 
-## [fs（文件系统）](https://deno.land/std/fs)
+## fs（文件系统）
 
 标准库中的 **fs** 是对Deno自带文件操作的扩展，比如增加了对JSON文件的读写：
 
@@ -248,7 +248,9 @@ deno run --allow-read --unstable fs.ts
 
 ![fs](http://lc-3Cv4Lgro.cn-n1.lcfile.com/f3175e9eb3107f24bb88/fs.jpg)
 
-## [http（网络模块）](https://deno.land/std/http)
+> fs模块地址：https://deno.land/std/fs
+
+## http（网络模块）
 
 和Node.js类似，Deno的http模块也能用于创建一个web服务器：
 
@@ -266,7 +268,7 @@ console.log('listening on port 3000');
 for await (const req of server) {
   req.respond({
     body: `<h1>Hello, Deno!</h1>`
-  })
+  });
 }
 ```
 
@@ -280,6 +282,7 @@ deno run --allow-net http.ts
 
 ![http](http://lc-3Cv4Lgro.cn-n1.lcfile.com/d1360b5a26cffa89876e/http.jpg)
 
+> http模块地址：https://deno.land/std/http
 
 ## uuid（通用唯一识别码）
 
@@ -306,3 +309,8 @@ deno run uuid.ts
 ![uuid](http://lc-3Cv4Lgro.cn-n1.lcfile.com/c9172e9ff30c3a657afd/uuid.jpg)
 
 > uuid模块地址：https://deno.land/std/uuid
+
+
+# 第三方模块
+
+虽然诞生不久但勤劳的同行们已经为Deno生态贡献了不少东西。

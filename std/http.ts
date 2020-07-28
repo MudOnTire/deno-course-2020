@@ -9,5 +9,5 @@ console.log('listening on port 3000');
 for await (const req of server) {
   req.respond({
     body: `<h1>Hello, Deno!</h1>`
-  })
+  });
 }
